@@ -1,0 +1,132 @@
+\paragraph{Bemerkung:}
+Wesentlich schwieriger ist das Testen von Hypothesen über den Verteilungstyp, ohne den Wert der Parameter zu spezifizieren.
+Zum Beispiel:
+\begin{alignat*}{3}
+	H_0: P_{X_1} \in \set{\mathcal{N}_{\mu,\sigma}}{\mu\in\SR, \sigma^2>0} \\
+	H_1: P_{X_1} \notin \set{\mathcal{N}_{\mu,\sigma}}{\mu\in\SR, \sigma^2>0}
+\end{alignat*}
+In diesem Falle sei die Testgröße
+\[
+	T(X_1,\ldots,X_n) = \sqrt{n} \sup_{t\in\SR} \abs{ \hat{F}(t) - F_{\hat{\mu},\hat{\sigma}^2}(t) }
+\]
+Wobei hier $F_{\hat{\mu},\hat{\sigma}^2}$ die Verteilungsfunktion zu $\mathcal{N}_{\hat{\mu},\hat{\sigma}}$ ist.
+Weiterhin lassen sich Verteilungsfunktionen auch anhand von Simulationen bestimmen.
+\begin{itemize}
+	\item Kolmojorow-Smiruov-Test wird als extrem konservativ bezeichnet und verwirft zu selten $H_0$
+	\item grafische Methode für Anpassungstest auf Normalverteilung
+\end{itemize}
+
+\subsection{Zweistichproben-Test} % (fold)
+\label{sub:zweistichproben_test}
+
+	Gegeben seien zwei konkrete Stichproben vom Umfang $n\in\SN$ beziehungsweise $m\in\SN$ aus zwei Grundgesamtheiten
+	\begin{align*}
+		x_1,\ldots,x_n\\
+		y_1,\ldots,y_m
+	\end{align*}
+	Dies tritt zum Beispiel beim Vergleich zwei verschiedener Produktionsverfahren auf.
+	Für die zugehörige mathematische Stichprobe gilt dann
+	\begin{align*}
+		X_1,\ldots,X_n \textit{ i.i.d gemäß } P_{\theta_1} \\
+		Y_1,\ldots,Y_m \textit{ i.i.d gemäß } P_{\theta_2}
+	\end{align*}
+	Das Ziel ist nun der Vergleich von Merkmalen der Verteilungstypen wie zum Beispiel
+	\begin{itemize}
+		\item Erwartungswert
+		\item Varianz
+		\item verschiedene Quantile
+		\item Verteilungsfunktion 
+	\end{itemize}
+	Für uns soll es hier reichen die Erwartungswerte zweier normalverteilter Grundgesamtheiten mit unbekannter Varianz zu betrachten.
+	Dies wird mithilfe eines Zweistichproben-$t$-Test ermöglicht.
+	Es sei also folgender statistischer Raum gegeben
+	\[
+		\curvb{ \SR^n\times\SR^m, \mathcal{R}_{n+m}, \set{\mathcal{N}_{\mu_1, \sigma^2} \otimes \mathcal{N}_{\mu_2, \sigma^2} }{ \mu_1,\mu_2\in\SR, \sigma^2>0 } }
+	\]
+	Es ergeben sich dann als Beispiel folgende einseitige Alternativhypothesen
+	\begin{align*}
+		H_0: \mu_1\leq\mu_2 \\
+		H_1: \mu_1>\mu_2
+	\end{align*}
+	Es soll dabei folgende Testgröße verwendet werden
+	\[
+		T(x_1,\ldots,x_n,y_1,\ldots,y_m) = \sqrt{\frac{nm}{n+m}}\cdot\frac{\bar{x}-\bar{y}}{\sqrt{\widehat{\hat{\sigma}^2}}}
+	\]
+	mit
+	\begin{align*}
+		\widehat{\hat{\sigma}^2} &= \frac{1}{m+n-2}\boxb{ \sum_{i=1}^n \curvb{x_i-\bar{x}}^2 + \sum_{i=1}^m \curvb{y_i-\bar{y}}^2 } \\
+		&= \frac{1}{m+n-2}\boxb{ (n-1)\hat{\sigma}_x^2 + (m-1)\hat{\sigma}_y^2 }
+	\end{align*}
+	Es folgt für den Fall $ \mu_1=\mu_2 $ durch Rechnung
+	\[
+		T(X_1,\ldots,X_n,Y_1,\dots,Y_m) \sim t_{n+m-2}
+	\]
+	Der kritische Bereich kann also analog zu den vorherigen Hypothesentests gewählt werden.
+	\[
+		K = [t_{n+m-2,1-\alpha},\infty)
+	\]
+	Sollte es doch passieren, dass $\mathrm{var}(X_1)\neq\mathrm{var}(Y_1)$, so empfiehlt sich die Anwendung des Welch-Tests (hier nicht beschrieben).
+	Ein Test zum Vergleich der Varianzen für normalverteilte Grundgesamtheiten ist der sogenannte $F$-Test (Erwartungswerte müssen nicht gleich sein).
+
+
+	\section{statistische Methoden für zweidimensionale Stichproben} % (fold)
+	\label{sec:statistische_methoden_f_r_zweidimensionale_stichproben}
+	\footnote{Multivariatstatistik}
+
+		Man betrachtet nun sogenannte gepaarte Stichproben
+		\[
+			(x_1,y_1),\ldots,(x_n,y_n) \in \SR^{2n}
+		\]
+		Es geht also inhaltlich um Paare von Messwerten zu einem bestimmten Zeitpunkt\footnote{oder auch an einem Objekt}.
+		Verschiedene Fragestellungen sind nun zum Beispiel
+		\begin{description}
+			\item[Korrelationsanalyse:] Sind $X_1$ und $Y_1$ unabhängig?
+			\item[Regressionsanalyse:] Wie sieht die funktionale Abhängigkeit von $X_1$ und $Y_1$ aus, wenn sie nicht unabhängig sind?
+			\item[Varianzanalyse:] Untersuchung von Parametervektoren.
+			\item[Diskriminanzanalyse:] Trennverfahren zur Zuordnung von Gruppen
+			\item[Faktorenanalyse:] Untersuchung von Kovarianzmatrizen
+			\item[Clusteranalyse:] Klassifikation von Werten
+		\end{description}
+		Dennoch werden wir auch hier grundsätzlich Punktschätzungen, Konfidenzschätzungen und Tests betrachten.
+		
+		\subsection{Regressionsanalyse} % (fold)
+		\label{sub:regressionsanalyse}
+		
+			Sei $(x_1,y_1),\ldots,(x_n,y_n)$ für $n\in\SN$ eine konkrete Stichprobe.
+			Das Modell der zugehörigen mathematischen Stichprobe sei nun
+			\[ (x_1,Y_1),\ldots,(x_n,Y_n) \]
+			wobei $Y_1,\ldots,Y_n$ Zufallsvariablen sind.
+			Die Wahl des Regressionsansatzes sei intuitiv für alle $i=1,\ldots,n$ gegeben.
+			\[ y_i = \beta_1 + \beta_2 x_i + u_i \]
+			Damit folgt auch das stochastische Modell.
+			Es ist ein einfaches lineares Regressionsmodell.
+			\[ Y_i = \beta_1 + \beta_2 x_i + U_i \quad \text{für alle } i=1,\ldots,n \]
+			Die $U_1,\ldots,U_n$ sind dabei i.i.d. Zufallsvariablen mit
+			\[ \FE U_i = 0,\qquad \var U_i = \sigma^2 >0 \]
+
+			\textbf{Bemerkung:}
+			\begin{itemize}
+				\item Die $u_i$ können nicht beobachtet werden.
+				\item Für die unbekannten Parameter $\beta_1,\beta_2,\sigma^2$ verwendet man Folgendes
+				\begin{itemize}
+					\item Punkt- und Konfidenzbereichsschätzungen
+					\item Testen von Hypothesen (zum Beispiel über $(\beta_1, \beta_2)$)
+					\item Punkt- und Konfidenzschätzungen für Prognosewerte $Y(x)$ an einer Stelle $x\in\SR$
+					\item Test auf Adäquatheit des Modells (zum Beispiel goodness-of-fit-Test oder lack-of-fit-Test)
+				\end{itemize}
+			\end{itemize}
+
+			Es sei nun
+			\[ \underline{\beta} := \begin{pmatrix}
+				\beta_1 \\
+				\beta_2
+			\end{pmatrix} \]
+			Ziel ist es nun eine Punktschätzung für $\underline{\beta}$ durch die Methode der kleinsten Quadrate zu erhalten.
+			Man wählt $\hat{\underline{\beta}}\in\SR^2$ als Lösung der Optimierungsaufgabe
+			\[ S(\hat{\underline{\beta}}) = \sum_{i=1}^n \boxb{y_i - \curvb{\beta_1 + \beta_2 x_i}}^2 \stackrel{!}{=} \min_{\underline{\beta}\in\SR^2} S(\underline{\beta}) \]
+
+		% subsection regressionsanalyse (end)
+
+	% section statistische_methoden_f_r_zweidimensionale_stichproben (end)
+
+% subsection zweistichproben_test (end)
